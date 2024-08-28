@@ -36,6 +36,9 @@ class Animals:
 
     name = property(get_name, set_name)
 
+    def get_date(self):
+        return self.__date_birthday
+
     def get_date_birthday(self):
         '''Get the age of the animal'''
         if self.__date_birthday != None:

@@ -28,3 +28,10 @@ class Controller:
     def search(cls, search_type, search_input):
         '''Search for animals'''
         return Service.search(search_type, search_input)
+
+
+
+    @classmethod
+    def download_db(cls):
+        '''Download database from SQL server'''
+        return Service.download_Db()

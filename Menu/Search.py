@@ -1,5 +1,5 @@
 from Menu.Verification import *
-from Controller.Controller import Controller
+from Controller.Controller_ import Controller
 
 
 class Search:

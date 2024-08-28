@@ -1,4 +1,4 @@
-from Controller.Controller import Controller
+from Controller.Controller_ import Controller
 from Menu.Verification import Verification_create
 
 
@@ -39,7 +39,7 @@ class Create:
         except ValueError as e:
             print(f'Invalid input. Please enter a valid name. {e}')
             return Create.enter_name()  # recursion until valid input is provided
-        return name
+        return name.lower().capitalize()
 
     @classmethod
     def enter_date_of_birth(cls):
@@ -92,6 +92,7 @@ class Create:
                 if species == 0:
                     return False
                 Verification_create.verify_species(species, Create.__spec)
+                return Verification_create.list_pack_animals_species.get(species)
         except ValueError as e:
             print(f'Invalid input. Please enter a valid species. {e}')
             return Create.enter_species()  # recursion until valid input is provided
@@ -102,7 +103,7 @@ class Create:
         '''Enter the commands of the animal'''
         err = None
         try:
-            commands = input('0.Exit  Enter commands (separated by commas \",\"): ').split(',')
+            commands = input('0.Exit  Enter commands (separated by commas \",\"): ').lower().split(',')
             if "0" in commands:
                 return False
             if len(commands)!=0:
