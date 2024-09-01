@@ -15,7 +15,7 @@ services:
 #      - .Human_Friends.sql:/docker-entrypoint-initdb.d/Human_Friends.sql
       - .Human_Friends:/var/lib/mysql
     command:
-      - mysql -u hacoc Human_Friends -p 123 < ./Human_Friends.sql
+      - mysql -u hacoc -p 123 < Human_Friends.sql
 
 #  python_app:
 #    build:
