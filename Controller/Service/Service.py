@@ -43,7 +43,6 @@ class Service:
         '''Update an animal by id'''
         for i in Service.get_all():
             if i.id == id:
-
                 if name == None:
                     name = i.name
                 else:

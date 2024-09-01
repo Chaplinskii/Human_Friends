@@ -1,268 +1,206 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1deb3
--- https://www.phpmyadmin.net/
+-- MySQL dump 10.13  Distrib 8.0.39, for Linux (x86_64)
 --
--- Хост: localhost:3306
--- Время создания: Авг 16 2024 г., 08:54
--- Версия сервера: 8.0.39-0ubuntu0.24.04.1
--- Версия PHP: 8.3.6
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: Human_Friends
+-- ------------------------------------------------------
+-- Server version	8.0.39-0ubuntu0.24.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- База данных: `Human_Friends`
+-- Table structure for table `animals`
 --
 
-DELIMITER $$
---
--- Процедуры
---
-CREATE DEFINER=`%`@`localhost` PROCEDURE `proc_delete` (OUT `tran_result` VARCHAR(100), IN `u_id` INT(45))  SQL SECURITY INVOKER BEGIN
-	
-	DECLARE `_rollback` BIT DEFAULT 0$$
-
-CREATE DEFINER=`%`@`localhost` PROCEDURE `proc_get_all` (OUT `tran_result` VARCHAR(100))  SQL SECURITY INVOKER BEGIN
-	
-	DECLARE `_rollback` BIT DEFAULT 0$$
-
-CREATE DEFINER=`%`@`localhost` PROCEDURE `proc_insert` (OUT `tran_result` VARCHAR(100), IN `u_name` VARCHAR(45), IN `u_date_birthday` DATE, IN `u_id_class` VARCHAR(45), IN `u_id_species` VARCHAR(45), IN `u_commands` TEXT)   BEGIN
-	
-	DECLARE `_rollback` BIT DEFAULT 0$$
-
-CREATE DEFINER=`%`@`localhost` PROCEDURE `proc_update` (IN `u_id` INT, IN `u_name` VARCHAR(45), IN `u_date_birthday` DATE, IN `u_id_class` VARCHAR(45), IN `u_id_species` VARCHAR(45), IN `u_commands` TEXT, OUT `tran_result` VARCHAR(100))   BEGIN
-	
-	DECLARE `_rollback` BIT DEFAULT 0$$
-
-DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `animals`
---
-
+DROP TABLE IF EXISTS `animals`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `animals` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `date_birthday` date NOT NULL,
   `id_class` int NOT NULL,
   `id_species` int NOT NULL,
-  `commands` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `commands` text,
+  PRIMARY KEY (`id`),
+  KEY `id_class` (`id_class`),
+  KEY `id_species` (`id_species`),
+  CONSTRAINT `animals_ibfk_1` FOREIGN KEY (`id_class`) REFERENCES `class` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `animals_ibfk_2` FOREIGN KEY (`id_species`) REFERENCES `species` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Дамп данных таблицы `animals`
+-- Dumping data for table `animals`
 --
 
-INSERT INTO `animals` (`id`, `name`, `date_birthday`, `id_class`, `id_species`, `commands`) VALUES
-(8, 'Eeyore', '2017-09-19', 2, 6, 'Walk, Carry Load, Bray'),
-(9, 'Fido', '2020-01-01', 1, 1, 'Sit, Stay, Fetch'),
-(10, 'Thunder', '2015-07-21', 2, 4, 'Sit, Stay, Fetch'),
-(11, 'Sandy', '2016-11-03', 2, 5, 'Walk, Carry Load');
-
---
--- Триггеры `animals`
---
-DELIMITER $$
-CREATE TRIGGER `animal_DELETE` AFTER DELETE ON `animals` FOR EACH ROW INSERT INTO log set record_ID = old.id, operation = 'DELETE'
-$$
-$$
+LOCK TABLES `animals` WRITE;
+/*!40000 ALTER TABLE `animals` DISABLE KEYS */;
+INSERT INTO `animals` VALUES (8,'Eeyore','2017-09-19',2,6,'Walk, Carry Load, Bray'),(9,'Fido','2020-01-01',1,1,'Sit, Stay, Fetch'),(10,'Thunder','2015-07-21',2,4,'Sit, Stay, Fetch'),(11,'Sandy','2016-11-03',2,5,'Walk, Carry Load');
+/*!40000 ALTER TABLE `animals` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`hacoc`@`localhost`*/ /*!50003 TRIGGER `animal_INSERT` AFTER INSERT ON `animals` FOR EACH ROW INSERT INTO log
+set record_ID = new.id, operation = 'INSERT' */;;
 DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `animal_INSERT` AFTER INSERT ON `animals` FOR EACH ROW INSERT INTO log
-set record_ID = new.id, operation = 'INSERT'
-$$
-$$
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`hacoc`@`localhost`*/ /*!50003 TRIGGER `animals_UPDATE` AFTER UPDATE ON `animals` FOR EACH ROW INSERT INTO log set record_ID = new.id, operation = 'UPDATE' */;;
 DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `animals_UPDATE` AFTER UPDATE ON `animals` FOR EACH ROW INSERT INTO log set record_ID = new.id, operation = 'UPDATE'
-$$
-$$
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `animal_DELETE` AFTER DELETE ON `animals` FOR EACH ROW INSERT INTO log set record_ID = old.id, operation = 'DELETE' */;;
 DELIMITER ;
-
--- --------------------------------------------------------
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Структура таблицы `class`
+-- Table structure for table `class`
 --
 
+DROP TABLE IF EXISTS `class`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `class` (
-  `id` int NOT NULL,
-  `class` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int NOT NULL AUTO_INCREMENT,
+  `class` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `class` (`class`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Дамп данных таблицы `class`
+-- Dumping data for table `class`
 --
 
-INSERT INTO `class` (`id`, `class`) VALUES
-(2, 'Pack animals'),
-(1, 'Pets');
-
--- --------------------------------------------------------
+LOCK TABLES `class` WRITE;
+/*!40000 ALTER TABLE `class` DISABLE KEYS */;
+INSERT INTO `class` VALUES (2,'Pack animals'),(1,'Pets');
+/*!40000 ALTER TABLE `class` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Структура таблицы `log`
+-- Table structure for table `log`
 --
 
+DROP TABLE IF EXISTS `log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `log` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `record_ID` int NOT NULL,
-  `operation` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `operation` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Дамп данных таблицы `log`
+-- Dumping data for table `log`
 --
 
-INSERT INTO `log` (`id`, `date`, `record_ID`, `operation`) VALUES
-(12, '2024-08-12 12:06:33', 9, 'INSERT'),
-(13, '2024-08-12 12:07:17', 6, 'DELETE'),
-(14, '2024-08-12 12:13:08', 8, 'UPDATE'),
-(15, '2024-08-14 12:58:09', 10, 'INSERT'),
-(16, '2024-08-14 13:02:38', 11, 'INSERT'),
-(17, '2024-08-14 13:16:01', 14, 'INSERT'),
-(18, '2024-08-14 13:19:41', 14, 'DELETE'),
-(19, '2024-08-14 14:33:26', 10, 'UPDATE');
-
--- --------------------------------------------------------
+LOCK TABLES `log` WRITE;
+/*!40000 ALTER TABLE `log` DISABLE KEYS */;
+INSERT INTO `log` VALUES (12,'2024-08-12 12:06:33',9,'INSERT'),(13,'2024-08-12 12:07:17',6,'DELETE'),(14,'2024-08-12 12:13:08',8,'UPDATE'),(15,'2024-08-14 12:58:09',10,'INSERT'),(16,'2024-08-14 13:02:38',11,'INSERT'),(17,'2024-08-14 13:16:01',14,'INSERT'),(18,'2024-08-14 13:19:41',14,'DELETE'),(19,'2024-08-14 14:33:26',10,'UPDATE');
+/*!40000 ALTER TABLE `log` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Структура таблицы `log_err`
+-- Table structure for table `log_err`
 --
 
+DROP TABLE IF EXISTS `log_err`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `log_err` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `error` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `error` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Дамп данных таблицы `log_err`
+-- Dumping data for table `log_err`
 --
 
-INSERT INTO `log_err` (`id`, `date`, `error`) VALUES
-(1, '2024-08-14 12:49:23', 'УПС. Ошибка: 42S22 Текст ошибки: Неизвестный столбец \'u_name\' в \'field list\''),
-(2, '2024-08-14 13:07:09', 'УПС. Ошибка: 21000 Текст ошибки: Операнд должен содержать 1 колонок'),
-(3, '2024-08-14 13:09:44', 'УПС. Ошибка: 21000 Текст ошибки: Операнд должен содержать 1 колонок'),
-(4, '2024-08-15 22:22:40', 'Error: 42S22 Text error: Неизвестный столбец \'u_id_class\' в \'where clause\'');
-
--- --------------------------------------------------------
+LOCK TABLES `log_err` WRITE;
+/*!40000 ALTER TABLE `log_err` DISABLE KEYS */;
+INSERT INTO `log_err` VALUES (1,'2024-08-14 12:49:23','УПС. Ошибка: 42S22 Текст ошибки: Неизвестный столбец \'u_name\' в \'field list\''),(2,'2024-08-14 13:07:09','УПС. Ошибка: 21000 Текст ошибки: Операнд должен содержать 1 колонок'),(3,'2024-08-14 13:09:44','УПС. Ошибка: 21000 Текст ошибки: Операнд должен содержать 1 колонок'),(4,'2024-08-15 22:22:40','Error: 42S22 Text error: Неизвестный столбец \'u_id_class\' в \'where clause\'');
+/*!40000 ALTER TABLE `log_err` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Структура таблицы `species`
+-- Table structure for table `species`
 --
 
+DROP TABLE IF EXISTS `species`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `species` (
-  `id` int NOT NULL,
-  `species` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int NOT NULL AUTO_INCREMENT,
+  `species` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `species` (`species`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Дамп данных таблицы `species`
+-- Dumping data for table `species`
 --
 
-INSERT INTO `species` (`id`, `species`) VALUES
-(5, 'Camel'),
-(2, 'Cat'),
-(1, 'Dog'),
-(6, 'Donkey'),
-(3, 'Hamster'),
-(4, 'Horse');
+LOCK TABLES `species` WRITE;
+/*!40000 ALTER TABLE `species` DISABLE KEYS */;
+INSERT INTO `species` VALUES (5,'Camel'),(2,'Cat'),(1,'Dog'),(6,'Donkey'),(3,'Hamster'),(4,'Horse');
+/*!40000 ALTER TABLE `species` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- Индексы сохранённых таблиц
---
-
---
--- Индексы таблицы `animals`
---
-ALTER TABLE `animals`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_class` (`id_class`),
-  ADD KEY `id_species` (`id_species`);
-
---
--- Индексы таблицы `class`
---
-ALTER TABLE `class`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `class` (`class`);
-
---
--- Индексы таблицы `log`
---
-ALTER TABLE `log`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `log_err`
---
-ALTER TABLE `log_err`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `species`
---
-ALTER TABLE `species`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `species` (`species`);
-
---
--- AUTO_INCREMENT для сохранённых таблиц
---
-
---
--- AUTO_INCREMENT для таблицы `animals`
---
-ALTER TABLE `animals`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT для таблицы `class`
---
-ALTER TABLE `class`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT для таблицы `log`
---
-ALTER TABLE `log`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
--- AUTO_INCREMENT для таблицы `log_err`
---
-ALTER TABLE `log_err`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT для таблицы `species`
---
-ALTER TABLE `species`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- Ограничения внешнего ключа сохраненных таблиц
---
-
---
--- Ограничения внешнего ключа таблицы `animals`
---
-ALTER TABLE `animals`
-  ADD CONSTRAINT `animals_ibfk_1` FOREIGN KEY (`id_class`) REFERENCES `class` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `animals_ibfk_2` FOREIGN KEY (`id_species`) REFERENCES `species` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-COMMIT;
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-08-16 11:58:42

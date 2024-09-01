@@ -1,0 +1,5 @@
+FROM ubuntu:24.10
+RUN apt-get update -y && apt-get install -y python3
+WORKDIR /app
+COPY Human_Friends /app/
+CMD ["python3", "/Human_Friends/main.py"]
