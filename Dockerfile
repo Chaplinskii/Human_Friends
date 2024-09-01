@@ -4,4 +4,4 @@ RUN git clone https://github.com/Chaplinskii/Human_Friends.git /app
 WORKDIR /app/Human_Friends
 #COPY /home/hacoc/my_app/ /app
 #CMD ["ls"]
-CMD ["python3", "./main.py"]
+CMD ["python3", "main.py"]
