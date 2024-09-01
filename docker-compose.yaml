@@ -15,7 +15,7 @@ services:
 #      - .:/docker-entrypoint-initdb.d/Human_Friends.sql
       - ./:/var/lib/mysql
     command:
-      - docker exec -i some-mysql mysql -u hacoc -p 123 Human_Friends < /var/lib/mysql/Human_Friends.sql
+      - docker exec -i some-mysql mysql -u hacoc -p 123 Human_Friends < Human_Friends.sql
 #      - mysql -u hacoc Human_Friends -p 123 < Human_Friends.sql
 
 #  python_app:
