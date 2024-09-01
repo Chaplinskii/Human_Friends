@@ -16,8 +16,8 @@ services:
       - .Human_Friends:/var/lib/mysql
       - ./Human_Friends.sql:/docker-entrypoint-initdb.d/Human_Friends.sql
 #    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-  #    command:
-#      - docker exec -i some-mysql mysql -u hacoc -p 123 Human_Friends < Human_Friends.sql
+    command:
+      - docker exec -i some-mysql mysql -u root -p 123 Human_Friends < Human_Friends.sql
 #      - mysql -u hacoc Human_Friends -p 123 < Human_Friends.sql
 
 #  python_app:
