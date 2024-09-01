@@ -4,6 +4,7 @@ services:
 
   some-mysql:
     image: mysql:8.0
+#    command: --default-authentication-plugin=mysql_native_password
     ports:
       - 3331:3306
     environment:
@@ -14,7 +15,8 @@ services:
     volumes:
       - ./:/var/lib/mysql
       - ./Human_Friends.sql:/docker-entrypoint-initdb.d/Human_Friends.sql
-#    command:
+#    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+  #    command:
 #      - docker exec -i some-mysql mysql -u hacoc -p 123 Human_Friends < Human_Friends.sql
 #      - mysql -u hacoc Human_Friends -p 123 < Human_Friends.sql
 
