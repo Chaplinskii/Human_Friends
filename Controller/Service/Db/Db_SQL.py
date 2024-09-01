@@ -24,7 +24,7 @@ class Db_SQL:
         try:
             self.__connection = pymysql.connect(
                 host='127.0.0.1',
-                port=3331,
+                port=3306,
                 # user='user_human_friends',
                 user='hacoc',
                 # user='root',
