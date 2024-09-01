@@ -13,7 +13,7 @@ services:
       MYSQL_ROOT_PASSWORD: 123
     volumes:
 #      - .Controller/Service/Db/Human_Friends.sql:/docker-entrypoint-initdb.d/Human_Friends.sql
-      - .:/var/lib/mysql
+      - .Human_Friends:/var/lib/mysql
 
 #  python_app:
 #    build:
