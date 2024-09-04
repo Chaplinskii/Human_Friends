@@ -12,8 +12,8 @@ services:
       MYSQL_USER: hacoc
       MYSQL_PASSWORD: 123
       MYSQL_ROOT_PASSWORD: 123
-    volumes:
-      - .Human_Friends:/var/lib/mysql
+#    volumes:
+#      - .Human_Friends:/var/lib/mysql
 #      - ./Human_Friends.sql:/docker-entrypoint-initdb.d/Human_Friends.sql
 #    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 #    command:
