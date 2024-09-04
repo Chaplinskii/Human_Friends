@@ -4,11 +4,11 @@ services:
 
   some-mysql:
     image: mysql:8.0
-
+    restart: always
     ports:
       - 3331:3306
     environment:
-      MYSQL_DATABASE: Human_Friends
+#      MYSQL_DATABASE: Human_Friends
       MYSQL_USER: hacoc
       MYSQL_PASSWORD: 123
       MYSQL_ROOT_PASSWORD: 123
